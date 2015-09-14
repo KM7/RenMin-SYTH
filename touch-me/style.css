@@ -1,0 +1,25 @@
+
+* {
+	-webkit-touch-callout: none;						/* Disable Open/Copy/Cancel */
+	-webkit-user-select: none;							/* Prevent selection of any element */
+	-webkit-tap-highlight-color: rgba(0,0,0,0);			/* set highlight color to transparant */
+}
+
+body {
+	background-color:#000;
+	font-family:Arial,Verdana;
+	font-size:1em;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;	/* hide scrollbar scroll */
+}
+
+canvas {
+	image-rendering: optimizespeed !important;
+	overflow: hidden;	/* hide scrollbar scroll */
+	
+	-webkit-transform-origin: left top;
+	-webkit-transform: scale(1,1);
+}
+
+

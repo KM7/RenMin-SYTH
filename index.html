@@ -1,0 +1,175 @@
+<!DOCTYPE HTML>
+
+<html>
+<title>Web Audio Granular Synthesiser Remake by Kenny Ma</title>
+	<head>
+	    <META HTTP-EQUIV="content-type" CONTENT="text/html; charset=utf-8">
+	    <meta name="viewport" id="viewport" content="width=device-width initial-scale=1 maximum-scale=1 user-scalable=no" />
+	    <meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta property="og:title" content="Multi-Touch Granular Sampler 1.0 by ZYA,Re-created by Kenny Ma" />
+		<meta property="og:site_name" content="ZYA.CC"/>
+		<meta property="og:url" content="http://www.zya.cc/granular" />
+
+		
+		<!-- CSS Libs -->
+		<link rel="stylesheet" href="libs/css/bootstrap.min.css">
+        <link rel="stylesheet" href="libs/css/bootstrap-theme.min.css">
+        <meta property="og:description" content="Granular synthesis is a method of sound synthesis based on splitting the audio into small pieces and playing them with short intervals.
+						After loading a sample, you can start creating grains by clicking and holding your mouse on the waveform. The X axis will determine the position and Y axis will change the amplitude of each grain.
+						This app also has multi-touch support for up to three voices and real-time manipulation of settings.
+						
+						Tested on: Google Chrome,Firefox, Safari, Chrome iOS (iPad), Safari iOS (iPad)
+						Libraries used: Web Audio AP, Processing.js, Bootstrap 3,jQuery Knob.
+
+						This is an re-established version from Kenny's sampler project (documents/github needed in the future for the forked repo d)
+
+						Performance Tip: Try using a quick attack and release as well as low density when using multi-touch for better performance." />
+		<meta property="og:image" content="http://static.tumblr.com/oczhivm/Kjmmymz3f/granular.jpg" />
+		<!-- JS Libs -->
+		<script src="libs/js/jquery-1.10.1.js"></script>
+		<script src='libs/js/jquery.knob.js'></script>
+		<script src="libs/js/processing-1.4.1.js"></script>
+		<script src="libs/js/bootstrap.min.js"></script>
+		  <script src="js/platform.js"></script>
+     <link rel="import" href="webcomponents/polymer.html">
+    <link rel="import" href="webcomponents/controls.html">
+    		<link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" type="text/css" href="css/main.css">
+		
+		<!-- App -->
+		<script src="js/gui.js"></script>		
+		<script src="js/main.js"></script>		
+    <script type="text/javascript" src="js/midi.js"></script>
+    <script type="text/javascript" src="js/waveshaper.js"></script>
+    <script type="text/javascript" src="js/synth.js"></script>
+    <script type="text/javascript" src="js/ui.js"></script>
+
+    
+   	<link rel="stylesheet" type="text/css" href="style.css" />						<!-- style.css -->
+		<link rel="stylesheet" type="text/css" href="./default.tinylog.css"/>	<!-- libPath -->
+		
+		<script type="text/javascript">console.TINYLOG = true</script>
+		<script type="text/javascript" src="./tinylog.min.js" defer="defer"></script><!-- libPath -->
+		<script type="text/javascript" src="jsinit.js" defer="defer"></script>			<!-- jsinit -->
+	</head>
+	
+	
+	<body>
+
+		<div class='row hidden-xs' id='header'>
+				<div id='title' class='col-md-6 col-sm-6 col-xs-6'>Multi-Touch Granular Sampler 1.0 by ZYA,Re-created by Kenny Ma</div>
+		</div>
+		
+		<!-- waveform row -->
+		<div class='row wave' id='waveform'>
+			
+			<canvas id='canvas'></canvas>
+			<canvas id='canvas2'></canvas>
+			<div id='help'>
+				<br>
+				<div class='row .hidden-xs' id='x'><span class='glyphicon glyphicon-arrow-left'></span> x axis - grain position <span class='glyphicon glyphicon-arrow-right'></span><br><br><span class='glyphicon glyphicon-arrow-up'></span><br>y axis - grain amplitude<br> <span class='glyphicon glyphicon-arrow-down'></span> </div>
+				<div class='row'>
+					<div class='col-md-3 col-sm-3 col-xs-3'></div>
+					<div id='drop' class='col-md-6 col-sm-6 col-xs-6 hidden-xs'> <br>drop an audio file here <br><br></div>
+					<div class='col-md-3 col-sm-3 col-xs-3'></div>
+				</div><br>
+				<div class='row'>
+					<div class='col-md-3 col-sm-3 col-xs-3'></div>
+					<div id='sample1' class='col-md-3 col-sm-3 col-xs-3 sample'>微信上最新的语音采样</div>
+					<div id='sample2' class='col-md-3 col-sm-3 col-xs-3 sample'>合成器音色的测试</div>
+					<div class='col-md-3 col-sm-3 col-xs-3'></div>
+				</div><br>
+				<div class='row hidden-xs' id='description'>
+					<div class='col-md-3 col-sm-3 col-xs-3'>
+					
+					</div>
+					<div class='col-md-6 col-sm-6 col-xs-6'>
+						<a href='http://en.wikipedia.org/wiki/Granular_synthesis'>Granular synthesis</a> is for Testing Purpose Only.<br>
+						
+						Tested on: Google Chrome,Firefox, Safari, Chrome iOS (iPad), Safari iOS (iPad)<br>
+						Libraries used: <a href='http://www.w3.org/TR/webaudio/'>Web Audio API</a>, <a href='http://processingjs.org/'>Processing.js</a>, <a href='http://getbootstrap.com/'>Bootstrap 3</a>, <a href='http://anthonyterrien.com/knob/'>jQuery Knob</a>
+
+						<br>Performance Tip: Try using a quick attack and release as well as low density when using multi-touch for better performance.
+
+					</div>
+					<div class='col-md-3 col-sm-3 col-xs-3'>
+				
+					
+					</div>
+					
+				</div>
+			
+			</div>
+
+		</div>
+
+		<!-- controls row -->
+		<div class='row' id='controls' style="display:none">
+			<div class='col-md-2 col-sm-2 col-xs-2'>
+				<div class='label hidden-xs'>attack</div><br><br>
+				<input type="text" class="dial" id='attack' data-min='0' data-max='100' value='40'><br><br>
+				
+			</div>
+
+			<div class='col-md-2 col-sm-2 col-xs-2'>
+				<div class='label hidden-xs'>release</div><br><br>
+				<input type="text" class="dial" id='release' data-min='0' data-max='100' value='40'>
+			</div>
+
+			<div class='col-md-2 col-sm-2 col-xs-2' >
+				<div class='label hidden-xs'>density</div><br><br>
+				<input type="text" class="dial" id='density' data-min='0' data-max='100' value='85'>
+			</div>
+
+			<div class='col-md-2 col-sm-2 col-xs-2'>
+				<div class='label hidden-xs'>spread</div><br><br>
+				<input type="text" class="dial" id='spread' data-min='0' data-max='100' value='20'>
+			</div>
+
+			<div class='col-md-2 col-sm-2 col-xs-2'>
+				<div class='label hidden-xs' >pan</div><br><br>
+				<input type="text" class="dial" id='pan' data-min='0' data-max='100' value='20'>
+			</div>
+
+			<div class='col-md-2 col-sm-2 col-xs-2 hidden-xs' >
+				<div class='label hidden-xs'>transpose</div><br><br>
+				<div id='transpose'>
+
+					<button id='minus' class='btn'>
+						-12
+					</button>
+
+					<button id='plus' class='btn'>
+						+12
+					</button><br><br>
+					<span class="glyphicon glyphicon-question-sign" id='helpbutton'></span>
+					
+				</div>
+				
+			</div>
+		</div>
+
+  <div id="synthbox" style="display:none">
+<!--
+        <div class="knobContainer" id="fControl" style="left: 10px; top: 10px;">
+            <input class="knob" data-width=100 data-angleOffset=-125 data-angleArc=250 data-fgColor="#66EE66" value="35">
+            <div class="knobLabel">frequency</div>
+        </div>
+-->
+    </div>
+    <div id="piano-roll">
+    <div id="keybox" touch-action="none" style="margin-left: auto; margin-right: auto;">
+        <div id="blackkeys">
+            <span id="k61" class="black key"></span><span id="k63" class="black key"></span><span class="spacer"></span><span id="k66" class="black key"></span><span id="k68" class="black key"></span><span id="k70" class="black key"></span><span class="spacer"></span><span id="k73" class="black key"></span><span id="k75" class="black key"></span><span class="spacer"></span><span id="k78" class="black key"></span><span id="k80" class="black key"></span><span id="k82" class="black key"></span>
+        </div>
+        <span id="k60" class="white key"></span><span id="k62" class="white key"></span><span id="k64" class="white key"></span><span id="k65" class="white key"></span><span id="k67" class="white key"></span><span id="k69" class="white key"></span><span id="k71" class="white key"></span><span id="k72" class="white key"></span><span id="k74" class="white key"></span><span id="k76" class="white key"></span><span id="k77" class="white key"></span><span id="k79" class="white key"></span><span id="k81" class="white key"></span><span id="k83" class="white key"></span>
+    </div>
+    <div id="MIDIPlugin"></div>
+</div>
+
+	<canvas id="canvas33" resize></canvas>
+		
+		<script type="text/javascript">
+setTimeout( function() { procoding.runStandalone(); }, 500 );</script>								<!-- export script -->
+	</body>
+</html>
