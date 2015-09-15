@@ -1,4 +1,9 @@
-# HTML5 Granular Synthesiser 1.0 #
+# HTML5 Granular Synthesiser 1.0 # By K
+
+15/09/2015 Kenny Ma
+
+正在加入手机端的优化模式
+
 
 The demo is a granular synthesiser with multi-touch support which uses Web Audio API for sound sampling and Processing.js for drawing and interactivity. 
 
