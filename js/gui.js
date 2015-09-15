@@ -130,7 +130,7 @@ function guiinit(){
 	});
 
 	$('#canvas2').hide();
-	$('#canvas').hide();
+	$('#canvas1').hide();
 	$('#helpbutton').click(function(){
 		if(helpvisible){
 			load();
@@ -152,11 +152,11 @@ function guiinit(){
 				
 			});
 
-			$('#canvas').animate({
+			$('#canvas1').animate({
 				opacity:0.0
 			},1000,function(){
 				$('#help').show();
-				$('#canvas').hide();
+				$('#canvas1').hide();
 			});
 			
 			helpvisible = true;
@@ -196,7 +196,7 @@ function guiinit(){
     			
     			buffer = b
     			data = buffer.getChannelData(0);
-    			var canvas1 = document.getElementById('canvas');
+    			var canvas1 = document.getElementById('canvas1');
     			var processing = new Processing(canvas1,waveformdisplay);
     			load();
 
@@ -219,7 +219,7 @@ function loadSample(sampleName){
 					buffer = b; //set the buffer
 					data = buffer.getChannelData(0);
 					isloaded = true;
-					var canvas1 = document.getElementById('canvas');
+					var canvas1 = document.getElementById('canvas1');
 					//initialize the processing draw when the buffer is ready
 					var processing = new Processing(canvas1,waveformdisplay);
 					load();
@@ -233,10 +233,10 @@ function loadSample(sampleName){
 		request.send();
 }
     function load(){
-		$('#canvas').show();
+		$('#canvas1').show();
 		$('#canvas2').show();
 
-		$('#canvas').animate({
+		$('#canvas1').animate({
 			opacity : 1
 		},1000);
 

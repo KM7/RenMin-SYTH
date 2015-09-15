@@ -57,7 +57,7 @@ body{
 
 }
 
-#canvas{
+#canvas1{
 	
 	position: absolute;
 	-moz-user-select: -moz-none;
@@ -77,9 +77,6 @@ body{
     -o-user-select: none;
     user-select: none;
     z-index: 5;
-   
-
-	
 }
 
 

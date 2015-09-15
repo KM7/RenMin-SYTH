@@ -258,7 +258,7 @@ var request = new XMLHttpRequest();
 			buffer = b; //set the buffer
 			data = buffer.getChannelData(0);
 			isloaded = true;
-			var canvas1 = document.getElementById('canvas');
+			var canvas1 = document.getElementById('canvas1');
 			//initialize the processing draw when the buffer is ready
 			var processing = new Processing(canvas1,waveformdisplay);
 
