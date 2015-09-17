@@ -261,6 +261,10 @@ var request = new XMLHttpRequest();
 			var canvas1 = document.getElementById('canvas1');
 			//initialize the processing draw when the buffer is ready
 			var processing = new Processing(canvas1,waveformdisplay);
+			//
+			var canvas3 = document.getElementById('canvas3');
+			//initialize the processing draw when the buffer is ready
+			var processing2 = new Processing(canvas3,testing);
 
 		},function(){
 			console.log('loading failed')
@@ -268,13 +272,44 @@ var request = new XMLHttpRequest();
 	};
 request.send();
 
+function testing(p){
+	w = parseInt($('#waveform').css('width'),10); //get the width
+	h = parseInt($('#waveform').css('height'),10); //get the height
+
+	//draw the buffer
+	
+	p.setup = function(){
+		p.size(w,h);
+		p.background(255);//background black	
+		
+		//change the size on resize
+		$(window).resize(function(){
+			w = parseInt($('#waveform').css('width'),10);
+			h = parseInt($('#waveform').css('height'),10);
+			p.size(w,h);
+			//redraw buffer on resize
+			p.stroke(20);
+			p.fill(122,2,33);
+			p.rect(50,50,50,50);
+
+		});
+		p.strokeWeight(0.01);
+		p.stroke(20);
+			p.rect(50,50,50,50);
+		p.noLoop();
+
+	};
+	
+
+}
+
 
 //processing - waveform display - canvas 
 function waveformdisplay(p){
 	w = parseInt($('#waveform').css('width'),10); //get the width
 	h = parseInt($('#waveform').css('height'),10); //get the height
 
-	//draw the buffer
+	//draw the buffer 音频可视化区域代码
 	function drawBuffer() {
 	    var step = Math.ceil( data.length / w );
 	    var amp = h / 2;
@@ -371,6 +406,44 @@ function grainsdisplay(p){
 	//safety for when the mouse is out of the canvas
 	$(document).mousemove(function(e){
 		if(e.target.id !== 'canvas2'){
+			for(var i = 0; i < voicesmono.length;i++){
+				voicesmono[i].stop();
+				voicesmono.splice(i);
+				setTimeout(function(){
+					p.background();
+				},300);
+			}
+		}
+	});
+
+
+		//mouse events
+		//start registeti
+	$('#canvas3').mousedown(function(){
+		mouseState = true;
+		
+		if(mouseState){
+			var v = new voice();
+			v.playmouse(p);
+			voicesmono[0] = v; //have in the array
+		}
+	}).mouseup(function(){
+		mouseState = false;
+		for(var i = 0; i < voicesmono.length;i++){
+			voicesmono[i].stop();
+			voicesmono.splice(i);
+		}
+		setTimeout(function(){
+			p.background();
+		},300);
+	}).mousemove(function(){
+		X = p.mouseX;
+		Y = p.mouseY;
+		
+	});
+	//safety for when the mouse is out of the canvas
+	$(document).mousemove(function(e){
+		if(e.target.id !== 'canvas3'){
 			for(var i = 0; i < voicesmono.length;i++){
 				voicesmono[i].stop();
 				voicesmono.splice(i);

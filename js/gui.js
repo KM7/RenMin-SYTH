@@ -128,7 +128,6 @@ function guiinit(){
 		e.preventDefault();
 		$('#plus').css('opacity',1);
 	});
-
 	$('#canvas2').hide();
 	$('#canvas1').hide();
 	$('#helpbutton').click(function(){
