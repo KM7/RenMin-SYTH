@@ -2,11 +2,15 @@ JSONObject json;
 //According to my server, the maximum is 10 for now
 int imageNumber=10;
 PImage img[]=new PImage[imageNumber];
+PImage ren;
+PImage mask;
+boolean isRemote=false;
 
 
 void setup() {
-  size(1000,1000);
-
+  size(1000,500);
+      ren=loadImage("ren.png");
+if (isRemote){
   json = loadJSONObject("http://www.kennilun.com/shanshanliu/test.php");
   JSONArray values = json.getJSONArray("random_pics");
  for (int i = 0; i < imageNumber; i++) {
@@ -14,13 +18,22 @@ void setup() {
     JSONObject item = values.getJSONObject(i); 
     img[i]=loadImage("http://www.kennilun.com/shanshanliu/pics/"+item.getString("media_id")+".jpg","jpg");
     String name = item.getString("media_id");
-    println("loadding "+i+"/"+10);
+    println("loadding "+i+"/"+imageNumber);
   }
+}else{
+   for (int i = 0; i < imageNumber; i++) {
+    img[i]=loadImage("temp_image/"+i+".jpg");
+   }
+}
     println("image loading finished");
 }
 
 void draw(){
   for(int i=0;i<imageNumber;i++){
-    image(img[i],random(0,1000),random(0,1000));
+    image(img[i],random(0,width),random(0,height));
   }
+  mask=get();
+  background(214,6,6);
+  mask.mask(ren);
+  image(mask,0,0);
 }
