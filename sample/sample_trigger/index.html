@@ -1,0 +1,69 @@
+
+<table>
+  <form action="" name="form1">
+  <tr><td>Start Time : </td><td><input type="text" name = "startTime" onchange = "st = document.form1.startTime.value"
+    size="10" value = "5"/></td></tr>
+  </form> 
+  <form action="" name="form2">
+  <tr><td>End Time : </td><td><input type="text" name ="endTime" onchange = "et = document.form2.endTime.value"
+    size="10" value = "10"/></td></tr>
+  </form>
+  <form action="" name="form3">
+  <tr><td>IsLoop : </td><td><input type="button" name="isLoop" value="Off"
+onclick="isLoop_onclick()" /> </td></tr>
+  </form>
+</table>
+<br/>
+<button onclick="sample_trigger(st, et, sample_name, isLoop)" id="playsound" disabled>Play</button>
+<script type="text/javascript">
+
+var audioctx = new AudioContext();
+var buffer = null;
+var sample_name = "./Canon In D_Brian Crain.mp3";
+LoadSample(audioctx, sample_name);
+var isLoop = 0;
+
+var st = document.form1.startTime.value;
+var et = document.form2.endTime.value;
+
+
+function sample_trigger(start_time, end_time, sample_name, isLoop) {
+  var src = audioctx.createBufferSource();
+  src.buffer = buffer;
+  src.connect(audioctx.destination);
+  var duration = end_time - start_time;
+  
+  src.start(0, start_time, duration);
+  if(isLoop == 1) {
+    src.loop = 1;
+    src.loopStart = start_time;
+    src.loopEnd = end_time;
+  } else {
+    src.loop = 0;
+  }
+};
+
+function isLoop_onclick() {
+if(document.form3.isLoop.value == "On") {
+  document.form3.isLoop.value = "Off";
+  isLoop = 0;
+} else {
+  document.form3.isLoop.value = "On";
+  isLoop = 1;
+}
+}
+
+function LoadSample(ctx, url) {
+  var req = new XMLHttpRequest();
+  req.open("GET", url, true);
+  req.responseType = "arraybuffer";
+  req.onload = function() {
+    if(req.response) {
+      ctx.decodeAudioData(req.response,function(b){buffer=b;},function(){});
+      document.querySelector("button#playsound").removeAttribute("disabled");
+    }
+  }
+  req.send();
+}
+
+</script>
