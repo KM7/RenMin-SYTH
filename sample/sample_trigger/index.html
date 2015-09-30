@@ -4,6 +4,7 @@
   <tr><td>Start Time : </td><td><input type="text" size="10" id="startTime" value="5"/></td></tr>
   <tr><td>End Time : </td><td><input type="text" size="10" id="endTime" value="10"/></td></tr>
   <tr><td>Loop : </td><td><input type="checkbox" size="10" id="loop" /></td></tr>
+  <tr><td>Current Time: </td><td><input type="text" size="10" id="curTime" ></td></tr>
 </table>
 
 <script type="text/javascript">
@@ -12,8 +13,10 @@ var audioctx = new AudioContext();
 var buffer = null;
 LoadSample(audioctx, "Canon In D_Brian Crain.mp3");
 var src = null;
+var isloop = 0;
 var startTime = parseFloat(document.getElementById("startTime").value);
 var endTime = parseFloat(document.getElementById("endTime").value);
+var c = 0, t, curtime;
 
 function LoadSample(ctx, url) {
   var req = new XMLHttpRequest();
@@ -21,7 +24,9 @@ function LoadSample(ctx, url) {
   req.responseType = "arraybuffer";
   req.onload = function () {
     if(req.response) {
-      ctx.decodeAudioData(req.response,function(b){buffer=b;},function(){});
+      ctx.decodeAudioData(req.response,function(b){
+        buffer=b;
+      },function(){});
       document.querySelector("button#playsound").removeAttribute("disabled"); 
     }
   }
@@ -33,13 +38,14 @@ document.querySelector("button#playsound").addEventListener("click", function(ev
   if(event.target.innerHTML=="Stop") {
     src.stop(0);
     label="Start";
+    stopCount();
   } else {
     src = audioctx.createBufferSource();
     src.buffer = buffer;
     src.connect(audioctx.destination);
-    src.loop = 0;
     src.start(0, startTime, endTime-startTime);
     label="Stop";
+    timedCount();
   }
   event.target.innerHTML=label;
 });
@@ -49,14 +55,31 @@ document.querySelector("input#endTime").addEventListener("change", Setup);
 document.querySelector("input#loop").addEventListener("change", Setup);
 
 function Setup() {
-  var loop = document.getElementById("loop").checked;
+  isloop = document.getElementById("loop").checked;
   startTime = parseFloat(document.getElementById("startTime").value);
   endTime = parseFloat(document.getElementById("endTime").value);
-  if(loop) {
+  if(isloop) {
     src.loop = 1;
     src.loopStart = startTime;
     src.loopEnd = endTime;
   }
 }
 Setup();
+
+function timedCount() {
+  curtime = startTime + c;
+  document.getElementById("curTime").value = curtime;
+  c = c+1;
+  t = setTimeout("timedCount()",1000);
+  if(curtime > endTime) {
+    stopCount();
+  }
+}
+
+function stopCount() {
+  c = 0;
+  setTimeout("document.getElementById('curTime').value=null", 0);
+  clearTimeout(t);
+}
+
 </script>
