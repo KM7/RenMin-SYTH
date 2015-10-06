@@ -1,46 +1,4 @@
-<html>
-<head>
-  <script src="processing.js"></script>
-</head>
-<body><h1>DRUM BLOCKS</a></h1>
-<h2>hit the buttons</h2>
-<p>to be continued</p>
 
-<style type="text/css">
-	body {
-	  background-color: #333; color: #bbb; line-height: normal;
-	  font-family: Lucida Grande, Lucida Sans, Arial, Helvetica Neue, Verdana, Geneva, sans-serif;
-	  font-size: 11px; font-weight: normal; text-decoration: none;
-		  line-height: 1.5em;
-	}
-	a img { 
-		border: 0px solid transparent;
-	}
-	a, a:link, a:visited, a:active, a:hover { 
-		color: #cdcdcd; text-decoration: underline;
-	}
-	h1 {
-	    font-family: Arial, Helvetica Neue, Verdana, Geneva, sans-serif;
-		width: 100%; letter-spacing: 0.1em;
-		margin-bottom: 1em; font-size: 1.65em;
-	}
-	canvas { 
-		display: block; 
-		outline: 0px; 
-		margin-bottom: 1.5em; 
-	}
-	#content { 
-		margin: 50px auto 0px auto; padding: 25px 25px 15px 25px;
-		width: 400px; min-width: 300px; overflow: auto;
-		border-left: 1px solid #444; border-top: 1px solid #444; 
-		border-right: 1px solid #333; border-bottom: 1px solid #333;
-		background-color: #3d3d3d;
-	}
-		</style>
-
-<canvas id="canvas1" width="640" height="360"></canvas>
-
-<script id="script1" type="text/javascript">
 
 var currentColor, rectHighlight, rectColor;
 var rectOver = new Array(4);
@@ -86,6 +44,15 @@ function sketchProc(processing) {
         currentColor = rectColor;
       }
     }
+    if(rectOver[0]) {
+      Sample.play(BUFFERS.kick, 0);
+    } else if(rectOver[1]) {
+      Sample.play(BUFFERS.snare, 0);
+    } else if(rectOver[2]) {
+      Sample.play(BUFFERS.hihat, 0);
+    } else if(rectOver[3]) {
+      Sample.play(BUFFERS.beat, 0);
+    }
   }
   
   function overRect(x, y, width, height)  {
@@ -97,11 +64,8 @@ function sketchProc(processing) {
     }
   }
 }
-
+  
 var canvas = document.getElementById("canvas1");
 // attaching the sketchProc function to the canvas
 var p = new Processing(canvas, sketchProc);
 // p.exit(); to detach it
-</script>
-</body>
-</html>
