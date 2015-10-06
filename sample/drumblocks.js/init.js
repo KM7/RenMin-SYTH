@@ -10,7 +10,8 @@ var BUFFERS_TO_LOAD = {
   synth: 'audio/synth.wav',
   kick: 'audio/kick.wav',
   snare: 'audio/snare.wav',
-  hihat: 'audio/hihat.wav'
+  hihat: 'audio/hihat.wav',
+  cvbuffer: 'audio/s1_r1_bd.wav'
 };
 
 // Loads all sound samples into the buffers object.

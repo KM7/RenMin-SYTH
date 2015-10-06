@@ -12,12 +12,18 @@
 <h2>hit the buttons</h2>
 <p>to be continued</p>
 
-<input type="button" id="playsound" onclick="Sample.play(BUFFERS.kick, 0);" value="Play">
-	</br>
-
+<input type="button" id="play/pause" onclick="Sample.toggle(BUFFERS.beat, 0);" value="Play/Pause">
+</br>
 
 <canvas id="canvas1" width="640" height="360"></canvas>
   <script src="main.js"></script>
+  
+Volume:
+<input type="range" id="volume" min="0" max="100" value="100" oninput="Sample.changeVolume(this);">
+</br>
+Reverb Level:
+<input type="range" id="rev" min="0" max="100" value="100" oninput="Sample.changeRev(this);">
+</br>
 
 </body>
 </html>

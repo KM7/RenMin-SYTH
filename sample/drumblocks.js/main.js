@@ -12,7 +12,7 @@ function sketchProc(processing) {
     rectColor = processing.color(0);
     rectHighlight = processing.color(51);
     currentColor = processing.color(255);
-  }
+  };
 
   processing.draw = function() {
     update(processing.mouseX, processing.mouseY);
@@ -26,7 +26,7 @@ function sketchProc(processing) {
       processing.stroke(255);
       processing.rect(100+i*70, 50, 50, 50);
     }
-  }
+  };
 
   function update(x, y) {
     for(var i=0; i<4; i++) {
@@ -39,11 +39,6 @@ function sketchProc(processing) {
   }
 
   processing.mouseClicked = function() {
-    for(var i=0; i<4; i++) {
-      if(rectOver[i]) {
-        currentColor = rectColor;
-      }
-    }
     if(rectOver[0]) {
       Sample.play(BUFFERS.kick, 0);
     } else if(rectOver[1]) {
@@ -51,9 +46,9 @@ function sketchProc(processing) {
     } else if(rectOver[2]) {
       Sample.play(BUFFERS.hihat, 0);
     } else if(rectOver[3]) {
-      Sample.play(BUFFERS.beat, 0);
+      Sample.toggle(BUFFERS.beat, 0);
     }
-  }
+  };
   
   function overRect(x, y, width, height)  {
     if (processing.mouseX >= x && processing.mouseX <= x+50 && 
